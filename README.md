@@ -1,27 +1,25 @@
 # CS 4280: Program Translation Project 0
 
-A program to build a tree and print it using the following traversals:
+A C++ program that reads in positive integers, and for each value, outputs quotients for incrementally increased divisors. The divisor begins with 2 and increases by 1 until the quotient equals 0. These divisions are implemented with a recursive function.
 
-* Preorder
-* Inorder
-* Postorder
+## Usage
+You can pass a list of positive integers to the program, with a maximum length of 10, either in a file, or as separate command line arguments.
 
-## How to Run
-`./P0 [file]`
+`P0 filename`
 
-* Where *file* is an optional argument.
-* If the *file* argument is not given, then the program reads data from the keyboard.
-* If the *file* argument is given, then the program reads data from the file specified. (*file* is any name and the extension is implicit)
+* Where `filename` is a file containing a list of positive integers with a maximum length of 10.
 
-### Example Invocations
-* `PO` - Read from the keyboard until simulated EOF.
-* `PO < somefile` - Redirecting from *somefile* instead of keyboard input.
-* `PO somefile` - Read from *somefile*.
+`P0 n1 [n2 ...]`
 
-## Output
-* The program outputs **3 files** corresponding to the 3 traversals:
-  * `file.preorder`
-  * `file.inorder`
-  * `file.postorder`
-* *file* is the name of input if given, and "*out*" if the input is from the keyboard.
+* Where `n1, n2, etc.` is a list of positive integers with a maximum length of 10.
+
+### Example Invocation
+
+* `P0 55 15 16`
+
+```
+27 9 2 0 numCalls = 4
+7 2 0 numCalls = 3
+53 17 4 0 numCalls = 4
+```
 
