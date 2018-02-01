@@ -15,7 +15,7 @@ all: $(BIN)
 $(BIN): main.o procInput.o incrDiv.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-main.o: main.cpp
+main.o: main.cpp timer.h
 	$(CXX) $(CXXFLAGS) -c $<
 
 procInput.o: procInput.cpp procInput.h
