@@ -4,6 +4,18 @@
 #include <fstream>
 #include "procInput.h"
 
+static void print_usage(const char* program_name);
+
+static void print_invalid_input_error(std::string input);
+
+static void print_max_ints_error();
+
+static bool is_positive_integer(const std::string &str);
+
+static bool is_digits(const std::string &str);
+
+static bool is_empty(std::ifstream &file);
+
 std::array<int, MAX_NUM_INTS> process_args(int argc, char* argv[]) {
   std::array<int, MAX_NUM_INTS> numbers = {0};
   if (argc == 1) {
@@ -21,6 +33,7 @@ std::array<int, MAX_NUM_INTS> process_args(int argc, char* argv[]) {
       }
       if (is_empty(file)) {
         std::cerr << "Error: File is empty.\n";
+        file.close();
         exit(1);
       }
       std::string x;
@@ -28,14 +41,17 @@ std::array<int, MAX_NUM_INTS> process_args(int argc, char* argv[]) {
       while (file >> x) {
         if (!is_positive_integer(x)) {
           print_invalid_input_error(x);
+          file.close();
           exit(1);
         }
         numbers[i++] = stoi(x);
         if (i == MAX_NUM_INTS) {
           print_max_ints_error();
+          file.close();
           exit(1);
         }
       }
+      file.close();
     }
   }
   if (argc > 2) {
@@ -52,6 +68,34 @@ std::array<int, MAX_NUM_INTS> process_args(int argc, char* argv[]) {
     }
   }
   return numbers;
+}
+
+std::string get_output_filename(int argc, char* argv[]) {
+  std::string default_output_filename = "screen.out";
+  if (argc == 1) {
+    print_usage(argv[0]);
+    exit(1);
+  }
+  if (argc == 2) {
+    if (is_positive_integer(argv[1])) {
+      return default_output_filename;
+    } else {  // Is a file
+      std::ifstream file(argv[1]);
+      if (!file) {
+        std::cerr << "Error: Cannot open file '" << argv[1] << "'.\n";
+        exit(1);
+      }
+      if (is_empty(file)) {
+        std::cerr << "Error: File is empty.\n";
+        file.close();
+        exit(1);
+      }
+      file.close();
+      return std::string(argv[1]) + ".out";
+    }
+  }
+  
+  return default_output_filename;
 }
 
 static void print_usage(const char* program_name) {
