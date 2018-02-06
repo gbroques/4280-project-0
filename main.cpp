@@ -7,14 +7,14 @@
 
 int main(int argc, char* argv[]) {
   timer timer_ = timer();
-  timer_.start();
+  timer_.start("Timer started.");
 
   std::array<int, MAX_NUM_INTS> numbers;
   numbers = process_args(argc, argv);
 
   std::string output_filename;
   output_filename = get_output_filename(argc, argv);
-  std::cout << "Outputting to " << output_filename << std::endl;
+  std::cout << "Outputting to file '" << output_filename << "'.\n";
 
   std::ofstream file(output_filename);
 
@@ -24,9 +24,9 @@ int main(int argc, char* argv[]) {
       incr_div(numbers[i++], file);
     }
 
-    timer_.stop();
+    timer_.stop("Timer stopped.");
 
-    file << "Total elapsed time: " << timer_.timeVal() << std::endl;
+    std::cout << "Total elapsed time: " << timer_.timeVal() << " seconds.\n";
 
     file.close();
   } else {
